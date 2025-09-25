@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ItajubáPark - Estacionamentos em Itajubá</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <!-- Fallback para Leaflet caso Mapbox não funcione -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="mapbox-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🅿️ ItajubáPark</h1>
+            <p class="subtitle">Encontre estacionamentos em Itajubá - MG</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="number" id="totalSpots">0</span>
+                    <span class="label">Estacionamentos</span>
+                </div>
+                <div class="stat">
+                    <span class="number" id="freeSpots">0</span>
+                    <span class="label">Vagas Livres</span>
+                </div>
+                <div class="stat">
+                    <span class="number" id="avgPrice">R$ 0,00</span>
+                    <span class="label">Preço Médio/Hora</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar por endereço, bairro ou ponto de referência...">
+                <button onclick="searchLocation()">🔍 Buscar</button>
+            </div>
+            <div class="filters">
+                <select id="priceFilter">
+                    <option value="all">Todos os preços</option>
+                    <option value="low">Até R$ 3,00/h</option>
+                    <option value="medium">R$ 3,00 - R$ 5,00/h</option>
+                    <option value="high">Acima de R$ 5,00/h</option>
+                </select>
+                <select id="typeFilter">
+                    <option value="all">Todos os tipos</option>
+                    <option value="private">Privado</option>
+                    <option value="public">Público</option>
+                    <option value="shopping">Shopping</option>
+                </select>
+                <button onclick="applyFilters()">Filtrar</button>
+            </div>
+        </div>
+
+        <div class="map-section">
+            <h3>📍 Estacionamentos em Itajubá</h3>
+            <div id="map"></div>
+            <div class="location-info">
+                <div class="info-item">
+                    <span class="label">Sua localização:</span>
+                    <span id="userLocation">Não detectada</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Estacionamento mais próximo:</span>
+                    <span id="nearestParking">Calculando...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="parking-list">
+            <h3>📋 Lista de Estacionamentos</h3>
+            <div id="parkingListContainer"></div>
+        </div>
+
+        <div class="controls">
+            <button onclick="showNearestParking()">🎯 Mais Próximo</button>
+            <button onclick="refreshData()">🔄 Atualizar</button>
+        </div>
+        
+        <!-- Botão flutuante para localização -->
+        <button class="floating-location" onclick="findMyLocation()" title="Minha Localização">
+            <span id="locationIcon">📍</span>
+        </button>
+        
+        <!-- Loading overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Carregando mapa...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
